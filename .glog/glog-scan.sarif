@@ -12,14 +12,15 @@
           "informationUri": "https://www.glog.ai",
           "rules": [
             {
-              "id": "cd948b39-1d86-3c83-a580-a3d5f1ee4501",
+              "id": "ae3dcd95-c1a4-31ec-9697-2046215786f3",
               "help": {
                 "text": "",
-                "markdown": "## Description\n\n\"Detected Prohibited C Function\" vulnerability in C++ programming language refers to the use of certain C standard library functions that are known to be dangerous due to their potential to cause buffer overflows, format string vulnerabilities, or other problems. These functions are often prohibited in secure coding standards. One such function is `fprintf`.\n\nThe `fprintf` function can lead to vulnerabilities if not used correctly. It can cause format string vulnerabilities if the format string is not a constant, or if it's composed dynamically, it can lead to buffer overflows if the output is larger than the buffer.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use safer alternatives to `fprintf` such as `snprintf` or `vsnprintf`. These functions include the size of the buffer as an argument, which can prevent buffer overflows.\n\n## Source Code Fix Recommendation\n\nInstead of using `fprintf`, use `snprintf` or `vsnprintf`. Here is an example:\n\n```cpp\n#include <stdio.h>\n\nvoid safe_function(const char* format, ...) {\n    char buffer[1024];\n    va_list args;\n    va_start(args, format);\n    vsnprintf(buffer, sizeof(buffer), format, args);\n    va_end(args);\n    // Now buffer contains the formatted string.\n    // You can write it to file with fwrite or similar\n}\n```\n\n## Library Dependencies\n\nThe code example requires the following library:\n\n- stdio.h\n\n## References\n\n- [OWASP C++](https://owasp.org/www-pdf-archive/OWASP_SCP_v2.pdf)\n\n## CWE\n\n- [CWE-676: Use of Potentially Dangerous Function](https://cwe.mitre.org/data/definitions/676.html)"
+                "markdown": "## Description\n\nIn C++ programming, the vulnerability \"Avoid Using Weak or Non-Cryptographic Random Number Generators\" refers to the use of weak random number generators or non-cryptographic random number generators that can lead to predictable or easily guessable values. This can be exploited by attackers to predict the output of the random number generator, leading to security vulnerabilities.\n\nThe specific vulnerability sink in question is `rand() * 1.f / RAND_MAX`. The `rand()` function in C++ is a weak random number generator that should not be used for generating values that require cryptographic strength, such as keys, tokens, or passwords.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, use a strong, cryptographic random number generator instead of `rand()`. In C++, you can use the `<random>` library, which provides a variety of random number generators that are suitable for different purposes.\n\n## Source Code Fix Recommendation\n\nReplace the `rand()` function with a cryptographic random number generator. Here is an example using the `std::random_device` and `std::uniform_real_distribution` from the `<random>` library:\n\n```cpp\n#include <random>\n\nstd::random_device rd;\nstd::mt19937 gen(rd());\nstd::uniform_real_distribution<> dis(0, 1);\n\nfloat random_value = dis(gen);\n```\n\n## Library Dependencies\n\nThe code example requires the `<random>` library.\n\n## References\n\n- [CWE-338: Use of Cryptographically Weak PRNG](https://cwe.mitre.org/data/definitions/338.html)"
               },
               "properties": {
                 "tags": [
-                  "DS154189"
+                  "DS148264",
+                  "ae3dcd95-c1a4-31ec-9697-2046215786f3"
                 ]
               }
             },
@@ -32,19 +33,6 @@
               "properties": {
                 "tags": [
                   "DS154189"
-                ]
-              }
-            },
-            {
-              "id": "ae3dcd95-c1a4-31ec-9697-2046215786f3",
-              "help": {
-                "text": "",
-                "markdown": "## Description\n\nIn C++ programming, the vulnerability \"Avoid Using Weak or Non-Cryptographic Random Number Generators\" refers to the use of weak random number generators or non-cryptographic random number generators that can lead to predictable or easily guessable values. This can be exploited by attackers to predict the output of the random number generator, leading to security vulnerabilities.\n\nThe specific vulnerability sink in question is `rand() * 1.f / RAND_MAX`. The `rand()` function in C++ is a weak random number generator that should not be used for generating values that require cryptographic strength, such as keys, tokens, or passwords.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, use a strong, cryptographic random number generator instead of `rand()`. In C++, you can use the `<random>` library, which provides a variety of random number generators that are suitable for different purposes.\n\n## Source Code Fix Recommendation\n\nReplace the `rand()` function with a cryptographic random number generator. Here is an example using the `std::random_device` and `std::uniform_real_distribution` from the `<random>` library:\n\n```cpp\n#include <random>\n\nstd::random_device rd;\nstd::mt19937 gen(rd());\nstd::uniform_real_distribution<> dis(0, 1);\n\nfloat random_value = dis(gen);\n```\n\n## Library Dependencies\n\nThe code example requires the `<random>` library.\n\n## References\n\n- [CWE-338: Use of Cryptographically Weak PRNG](https://cwe.mitre.org/data/definitions/338.html)"
-              },
-              "properties": {
-                "tags": [
-                  "DS148264",
-                  "ae3dcd95-c1a4-31ec-9697-2046215786f3"
                 ]
               }
             },
@@ -73,7 +61,7 @@
       "language": "en-US",
       "results": [
         {
-          "ruleId": "66017151-3be8-3308-be48-2df88d50a276",
+          "ruleId": "cd948b39-1d86-3c83-a580-a3d5f1ee4501",
           "kind": "fail",
           "level": "warning",
           "message": {
@@ -86,11 +74,11 @@
                   "uri": "fusion/miopen.hpp"
                 },
                 "region": {
-                  "startLine": 56,
+                  "startLine": 66,
                   "startColumn": 4,
-                  "endLine": 56,
+                  "endLine": 66,
                   "endColumn": 11,
-                  "charOffset": 1735,
+                  "charOffset": 1962,
                   "charLength": 7,
                   "snippet": {
                     "text": "fprintf",
@@ -113,7 +101,7 @@
           }
         },
         {
-          "ruleId": "cd948b39-1d86-3c83-a580-a3d5f1ee4501",
+          "ruleId": "66017151-3be8-3308-be48-2df88d50a276",
           "kind": "fail",
           "level": "warning",
           "message": {
@@ -126,11 +114,11 @@
                   "uri": "fusion/miopen.hpp"
                 },
                 "region": {
-                  "startLine": 66,
+                  "startLine": 56,
                   "startColumn": 4,
-                  "endLine": 66,
+                  "endLine": 56,
                   "endColumn": 11,
-                  "charOffset": 1962,
+                  "charOffset": 1735,
                   "charLength": 7,
                   "snippet": {
                     "text": "fprintf",
